@@ -27,7 +27,7 @@ BEGIN{
 # In Grammar section of y.output,
 # record lhs and length of rhs for each rule.
 bison && /^Grammar/ { grammar = 1 }
-bison && /^(Terminals|state 0)/ { grammar = 0 }
+bison && /^(Terminals,|State 0)/ { grammar = 0 }
 grammar && NF>0 {
 	if($2 != "|") {
 		r = $2
@@ -41,9 +41,9 @@ grammar && NF>0 {
 }
 
 # In state dumps, record shift/reduce actions.
-bison && /^state 0/ { grammar = 0; states = 1 }
+bison && /^State 0/ { grammar = 0; states = 1 }
 
-states && /^state / { state = $2 }
+states && /^State / { state = $2 }
 states { statetext[state] = statetext[state] $0 "\n" }
 
 states && / shift, and go to state/ {
